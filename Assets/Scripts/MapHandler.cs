@@ -10,30 +10,11 @@ namespace dmdspirit.Tactical
         public string mapFileFolder = "Maps";
         public string mapName = "TestMap";
 
+        public MapElementHandler mapElementPrefab;
+
         public event Action OnMapLoaded;
 
-        private List<MapElement> map;
-
-        private void Start()
-        {
-            map = new List<MapElement>();
-            map.Add(new MapElement(0, 0));
-            map.Add(new MapElement(0, 1, elementType: MapElementType.Block, canStandOn: true));
-            map.Add(new MapElement(1, 0, elementType: MapElementType.Block, canStandOn: true));
-
-        }
-
-        public List<MapElement> GetElement(int x, int y)
-        {
-            List<MapElement> result = new List<MapElement>();
-            if (map == null)
-                Debug.LogError("Trying to get element from non initialized map.");
-            else
-                foreach (var elemtent in map)
-                    if (elemtent.x == x && elemtent.y == y)
-                        result.Add(elemtent);
-            return result;
-        }
+        private List<MapElementHandler> map;
 
         public bool CheckIsEmpty()
         {
@@ -54,6 +35,7 @@ namespace dmdspirit.Tactical
 
         public void LoadMap(string mapFilePath)
         {
+            
             string mapJSON = File.ReadAllText(mapFilePath);
             SerializableMap loadedMap = JsonUtility.FromJson<SerializableMap>(mapJSON);
             if(loadedMap.IsInitialized() == false)
@@ -61,19 +43,35 @@ namespace dmdspirit.Tactical
                 Debug.LogError($"Map file has wrong data format or loaded map was empty. {mapFilePath}");
                 return;
             }
-            map = new List<MapElement>(loadedMap.mapArray);
+            ClearMap();                
+            BuildMap(loadedMap);
             if (OnMapLoaded != null)
                 OnMapLoaded();
         }
 
-        private void BuildMap()
+        private void BuildMap(SerializableMap loadedMap)
         {
-
+            if (mapElementPrefab == null)
+            {
+                Debug.LogError($"{gameObject.name}: {nameof(mapElementPrefab)} is not set. Could not build the map.");
+                return;
+            }
+            map = new List<MapElementHandler>();
+            foreach(var mapElement in loadedMap.mapArray)
+            {
+                MapElementHandler loadedElement = Instantiate<MapElementHandler>(mapElementPrefab, transform);
+                loadedElement.Initialize(mapElement);
+                map.Add(loadedElement);
+            }
         }
 
-        private void ClearMap()
+        public void ClearMap()
         {
-
+            if (map == null)
+                return;
+            foreach (var mapElement in map)
+                DestroyImmediate(mapElement.gameObject);
+            map.Clear();
         }
     }
 }

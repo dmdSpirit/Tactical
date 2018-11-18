@@ -32,6 +32,10 @@ namespace dmdspirit.Tactical
                 if (string.IsNullOrEmpty(mapPath) == false)
                     mapHanlder.LoadMap(mapPath);
             }
+            if(GUILayout.Button("Clear Map"))
+            {
+                mapHanlder.ClearMap();
+            }
         }
     }
 }

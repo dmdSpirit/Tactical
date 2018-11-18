@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace dmdspirit.Tactical
 {
@@ -7,9 +8,16 @@ namespace dmdspirit.Tactical
     {
         public MapElement[] mapArray;
 
-        public SerializableMap(List<MapElement> newMap)
+        public SerializableMap(List<MapElementHandler> mapToSerialize)
         {
-            mapArray = newMap.ToArray();
+            if (mapToSerialize == null)
+            {
+                Debug.LogError("Trying to serialize non initialized list of map elements.");
+                return;
+            }
+            mapArray = new MapElement[mapToSerialize.Count];
+            for (int i = 0; i < mapToSerialize.Count; i++)
+                mapArray[i] = mapToSerialize[i].element;
         }
 
         public bool IsInitialized()
