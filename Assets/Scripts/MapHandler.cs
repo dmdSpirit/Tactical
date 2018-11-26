@@ -28,6 +28,7 @@ namespace dmdspirit.Tactical
 
         public void SaveMap(string mapFilePath)
         {
+            UpdateMap();
             string mapJSON = JsonUtility.ToJson(new SerializableMap(map));
             File.WriteAllText(mapFilePath, mapJSON);
             Debug.Log($"Map was saved to {mapFilePath}");
@@ -49,6 +50,30 @@ namespace dmdspirit.Tactical
                 OnMapLoaded();
         }
 
+        public void ClearMap()
+        {
+            if (map == null)
+                return;
+            foreach (var mapElement in map)
+                DestroyImmediate(mapElement.gameObject);
+            map.Clear();
+        }
+
+        public void UpdateMap()
+        {
+            map = new List<MapElementHandler>();
+            foreach(MapElementHandler mapElementHandler in FindObjectsOfType<MapElementHandler>())
+            {
+                if (mapElementHandler.transform.parent != transform)
+                    Debug.LogError($"{nameof(MapElementHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", mapElementHandler.gameObject);
+                else
+                {
+                    mapElementHandler.UpdateMapElement();
+                    map.Add(mapElementHandler);
+                }
+            }
+        }
+
         private void BuildMap(SerializableMap loadedMap)
         {
             if (mapElementPrefab == null)
@@ -63,15 +88,6 @@ namespace dmdspirit.Tactical
                 loadedElement.Initialize(mapElement);
                 map.Add(loadedElement);
             }
-        }
-
-        public void ClearMap()
-        {
-            if (map == null)
-                return;
-            foreach (var mapElement in map)
-                DestroyImmediate(mapElement.gameObject);
-            map.Clear();
         }
     }
 }

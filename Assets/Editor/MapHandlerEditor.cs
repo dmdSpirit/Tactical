@@ -13,7 +13,11 @@ namespace dmdspirit.Tactical
 
             MapHandler mapHanlder = (MapHandler)target;
             string fullFolderPath = $"{Application.dataPath}/{mapHanlder.mapFileFolder}";
-            if (GUILayout.Button("Save Map"))
+            if (GUILayout.Button("Update Map"))
+            {
+                mapHanlder.UpdateMap();
+            }
+                if (GUILayout.Button("Save Map"))
             {
                 if (Directory.Exists(fullFolderPath) == false)
                     Directory.CreateDirectory(fullFolderPath);
