@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1280783766756456}
+  m_RootGameObject: {fileID: 1330015694987970}
   m_IsPrefabAsset: 1
---- !u!1 &1280783766756456
+--- !u!1 &1330015694987970
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4336077406092972}
-  - component: {fileID: 114751487192446556}
+  - component: {fileID: 4423012662820020}
+  - component: {fileID: 114249776261198298}
   m_Layer: 0
-  m_Name: MapElement
+  m_Name: Character
   m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4336077406092972
+--- !u!4 &4423012662820020
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280783766756456}
+  m_GameObject: {fileID: 1330015694987970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,21 +40,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114751487192446556
+--- !u!114 &114249776261198298
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280783766756456}
+  m_GameObject: {fileID: 1330015694987970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9eab37ef7b11244196eb03699f1b2ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b21cdf1da19b74cb6e4ecfdb753850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  element:
+  character:
+    name: 
+    movementSpeed: 0
+    jumpHeight: 0
+    canFly: 0
+    hasMoved: 0
+    hasDoneAction: 0
     x: 0
     y: 0
     height: 0
-    elementType: 0
-    canStandOn: 0
-  currentElementType: 0
+    characterModelType: 0
+  currentCharacterModelType: 0

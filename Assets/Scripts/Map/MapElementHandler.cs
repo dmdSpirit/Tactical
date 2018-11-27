@@ -3,12 +3,14 @@ using System.Collections;
 
 namespace dmdspirit.Tactical
 {
+    [SelectionBase]
     public class MapElementHandler : MonoBehaviour
     {
         public MapElement element;
 
         [SerializeField]
         private MapElementType currentElementType;
+
         private GameObject model;
 
         public void Initialize(MapElement element)
@@ -23,7 +25,6 @@ namespace dmdspirit.Tactical
         // Update mapElement. Used for creating map from unity editor.
         public void UpdateMapElement()
         {
-            // TODO: (dmdspirit) Check if by some mistake the model was moved instead of parent gameObject.
             if (model)
                 element.x = (int)(transform.position.x / transform.localScale.x);
             element.y = (int)(transform.position.z / transform.localScale.z);
@@ -33,8 +34,11 @@ namespace dmdspirit.Tactical
                 element.x * transform.localScale.x,
                 element.height * transform.localScale.y,
                 element.y * transform.localScale.z);
-            // TODO: (Stas) Add message on snapping event.
-            transform.position = snappedPosition;
+            if (snappedPosition != transform.position)
+            {
+                Debug.LogWarning($"Map Element was snapped to map grid (from {transform.position} to {snappedPosition}).", gameObject);
+                transform.position = snappedPosition;
+            }
             if (element.elementType != currentElementType)
             {
                 Debug.LogError($"Something went wrong, {nameof(element.elementType)} is not equal to {nameof(currentElementType)}", gameObject);
@@ -48,7 +52,7 @@ namespace dmdspirit.Tactical
         {
             if (model != null)
                 StartCoroutine(DeleteOldModel(model));
-            GameObject modelPrefab = ModelController.Instance.GetModel(ModelTypeEnum.MapElement, element.elementType.ToString());
+            GameObject modelPrefab = ModelController.Instance.GetModel(ModelTypeEnum.MapElement, element.elementType.ToString(), gameObject);
             if (modelPrefab == null)
                 return;
             model = Instantiate(modelPrefab, transform);

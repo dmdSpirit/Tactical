@@ -16,6 +16,9 @@ namespace dmdspirit.Tactical
 
         private List<MapElementHandler> map;
 
+        // TODO: (dmdspirit) Add character save/load.
+        // TODO: (dmdspirit) I think i should create base class 'MapElement' and generalize all this saving/loading.
+
         private void Start()
         {
             UpdateMap();
@@ -49,7 +52,9 @@ namespace dmdspirit.Tactical
                 Debug.LogError($"Map file has wrong data format or loaded map was empty. {mapFilePath}");
                 return;
             }
-            ClearMap();                
+            ClearMap();
+            if (ModelController.Instance.modelsInitialized == false)
+                ModelController.Instance.InitializeModels();
             BuildMap(loadedMap);
             if (OnMapLoaded != null)
                 OnMapLoaded();
@@ -57,6 +62,7 @@ namespace dmdspirit.Tactical
 
         public void ClearMap()
         {
+            UpdateMap();
             if (map == null)
                 return;
             foreach (var mapElement in map)
