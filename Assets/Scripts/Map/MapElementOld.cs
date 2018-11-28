@@ -2,23 +2,23 @@
 
 namespace dmdspirit.Tactical
 {
-    public enum MapElementType
+    public enum MapElementOldType
     {
         Empty,
         Block
     }
 
     [System.Serializable]
-    public class MapElement
+    public class MapElementOld
     {
         public int x;
         public int y;
         public int height;
-        public MapElementType elementType = MapElementType.Empty;
+        public MapElementOldType elementType = MapElementOldType.Empty;
 
         public bool canStandOn = false;
 
-        public MapElement(int x, int y, int height = 0, MapElementType elementType = MapElementType.Empty, bool canStandOn = false)
+        public MapElementOld(int x, int y, int height = 0, MapElementOldType elementType = MapElementOldType.Empty, bool canStandOn = false)
         {
             this.x = x;
             this.y = y;

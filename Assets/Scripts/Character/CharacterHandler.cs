@@ -15,8 +15,7 @@ namespace dmdspirit.Tactical
     [SelectionBase]
     public class CharacterHandler : MonoBehaviour
     {
-        public Character character;
-
+        /*
         [SerializeField]
         private CharacterModelType currentCharacterModelType;
 
@@ -78,6 +77,6 @@ namespace dmdspirit.Tactical
         {
             yield return new WaitForEndOfFrame();
             DestroyImmediate(oldModel);
-        }
+        }*/
     }
 }

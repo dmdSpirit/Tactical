@@ -10,11 +10,11 @@ namespace dmdspirit.Tactical
         public string mapFileFolder = "Maps";
         public string mapName = "TestMap";
 
-        public MapElementHandler mapElementPrefab;
+        public TerrainElementHandler terrainElementPrefab;
 
         public event Action OnMapLoaded;
 
-        private List<MapElementHandler> map;
+        private List<TerrainElementHandler> terrainMap;
 
         // TODO: (dmdspirit) Add character save/load.
         // TODO: (dmdspirit) I think i should create base class 'MapElement' and generalize all this saving/loading.
@@ -26,7 +26,7 @@ namespace dmdspirit.Tactical
 
         public bool CheckIsEmpty()
         {
-            if (map == null)
+            if (terrainMap == null)
             {
                 Debug.Log("Trying to save non initialized map.");
                 return true;
@@ -37,7 +37,7 @@ namespace dmdspirit.Tactical
         public void SaveMap(string mapFilePath)
         {
             UpdateMap();
-            string mapJSON = JsonUtility.ToJson(new SerializableMap(map));
+            string mapJSON = JsonUtility.ToJson(new SerializableMap(terrainMap));
             File.WriteAllText(mapFilePath, mapJSON);
             Debug.Log($"Map was saved to {mapFilePath}");
         }
@@ -53,8 +53,6 @@ namespace dmdspirit.Tactical
                 return;
             }
             ClearMap();
-            if (ModelController.Instance.modelsInitialized == false)
-                ModelController.Instance.InitializeModels();
             BuildMap(loadedMap);
             if (OnMapLoaded != null)
                 OnMapLoaded();
@@ -63,41 +61,41 @@ namespace dmdspirit.Tactical
         public void ClearMap()
         {
             UpdateMap();
-            if (map == null)
+            if (terrainMap == null)
                 return;
-            foreach (var mapElement in map)
+            foreach (var mapElement in terrainMap)
                 DestroyImmediate(mapElement.gameObject);
-            map.Clear();
+            terrainMap.Clear();
         }
 
         public void UpdateMap()
         {
-            map = new List<MapElementHandler>();
-            foreach(MapElementHandler mapElementHandler in FindObjectsOfType<MapElementHandler>())
+            terrainMap = new List<TerrainElementHandler>();
+            foreach(TerrainElementHandler mapElementHandler in FindObjectsOfType<TerrainElementHandler>())
             {
                 if (mapElementHandler.transform.parent != transform)
-                    Debug.LogError($"{nameof(MapElementHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", mapElementHandler.gameObject);
+                    Debug.LogError($"{nameof(TerrainElementHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", mapElementHandler.gameObject);
                 else
                 {
                     mapElementHandler.UpdateMapElement();
-                    map.Add(mapElementHandler);
+                    terrainMap.Add(mapElementHandler);
                 }
             }
         }
 
         private void BuildMap(SerializableMap loadedMap)
         {
-            if (mapElementPrefab == null)
+            if (terrainElementPrefab == null)
             {
-                Debug.LogError($"{gameObject.name}: {nameof(mapElementPrefab)} is not set. Could not build the map.");
+                Debug.LogError($"{gameObject.name}: {nameof(terrainElementPrefab)} is not set. Could not build the map.");
                 return;
             }
-            map = new List<MapElementHandler>();
-            foreach(var mapElement in loadedMap.mapArray)
+            terrainMap = new List<TerrainElementHandler>();
+            foreach(var mapElement in loadedMap.terrainArray)
             {
-                MapElementHandler loadedElement = Instantiate<MapElementHandler>(mapElementPrefab, transform);
+                TerrainElementHandler loadedElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);
                 loadedElement.Initialize(mapElement);
-                map.Add(loadedElement);
+                terrainMap.Add(loadedElement);
             }
         }
     }

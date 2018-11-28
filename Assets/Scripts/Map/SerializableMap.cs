@@ -6,23 +6,23 @@ namespace dmdspirit.Tactical
     [System.Serializable]
     public class SerializableMap
     {
-        public MapElement[] mapArray;
+        public TerrainElement[] terrainArray;
 
-        public SerializableMap(List<MapElementHandler> mapToSerialize)
+        public SerializableMap(List<TerrainElementHandler> terrainMap)
         {
-            if (mapToSerialize == null)
+            if (terrainMap == null)
             {
                 Debug.LogError("Trying to serialize non initialized list of map elements.");
                 return;
             }
-            mapArray = new MapElement[mapToSerialize.Count];
-            for (int i = 0; i < mapToSerialize.Count; i++)
-                mapArray[i] = mapToSerialize[i].element;
+            terrainArray = new TerrainElement[terrainMap.Count];
+            for (int i = 0; i < terrainMap.Count; i++)
+                terrainArray[i] = terrainMap[i].element;
         }
 
         public bool IsInitialized()
         {
-            return mapArray != null && mapArray.Length > 0;
+            return terrainArray != null && terrainArray.Length > 0;
         }
     }
 }

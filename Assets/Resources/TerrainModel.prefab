@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33137660232653570}
   - component: {fileID: 23822936198289758}
   m_Layer: 0
-  m_Name: Block
+  m_Name: TerrainModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4336077406092972}
   - component: {fileID: 114751487192446556}
   m_Layer: 0
-  m_Name: MapElement
+  m_Name: TerrainElement
   m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -57,4 +57,5 @@ MonoBehaviour:
     height: 0
     elementType: 0
     canStandOn: 0
-  currentElementType: 0
+    terrainType: 0
+  currentTerrainType: 0
