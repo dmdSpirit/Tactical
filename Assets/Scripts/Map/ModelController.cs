@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace dmdspirit.Tactical
 {
-    // TODO: (Stas) Write calculation of surfaces to have seamless textures like in Disgaea 5.
+    // TODO: (dmdspirit) Write calculation of surfaces to have seamless textures like in Disgaea 5.
 
     // Basically this enum contains terrain material names for easier inEditor map edditing.
     public enum TerrainType
@@ -16,7 +16,7 @@ namespace dmdspirit.Tactical
     [ExecuteInEditMode]
     public class ModelController : MonoSingleton<ModelController>
     {
-        // TODO: (Stas) Move away from string to enums. We can parse then on LoadModel.
+        // TODO: (dmdspirit) Move away from string to enums. We can parse then on LoadModel.
         private Dictionary<string, Material> terrainMaterialsDictionary;
         private Dictionary<string, GameObject> characterModelDictionary;
         private GameObject terrainModel;

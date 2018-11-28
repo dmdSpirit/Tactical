@@ -3,71 +3,50 @@ using System.Collections;
 
 namespace dmdspirit.Tactical
 {
-    [SelectionBase]
+    [RequireComponent(typeof(MapElementHandler))]
     public class TerrainElementHandler : MonoBehaviour
     {
-        public TerrainElement element;
-
+        public TerrainElement terrainElement;
         [SerializeField]
         private TerrainType currentTerrainType;
 
-        private GameObject model;
+        private MapElementHandler mapElementHandler;
+        private bool isInitialized = false;
 
-        public void Initialize(TerrainElement element)
+        private void Awake()
         {
-            this.element = element;
-            transform.position = new Vector3(element.x * transform.localScale.x, element.height * transform.localScale.y, element.y * transform.localScale.z);
-            gameObject.name = $"({element.x},{element.y},{element.height}){element.terrainType.ToString()}-Terrain";
-            currentTerrainType = element.terrainType;
-            LoadModel();
+            mapElementHandler = GetComponent<MapElementHandler>();
         }
 
-        // Update mapElement. Used for creating map from unity editor.
-        public void UpdateMapElement()
+        private void Start()
         {
-            element.x = (int)(transform.position.x / transform.localScale.x);
-            element.y = (int)(transform.position.z / transform.localScale.z);
-            element.height = (int)(transform.position.y / transform.localScale.y);
-            // Some snapping action here.
-            Vector3 snappedPosition = new Vector3(
-                element.x * transform.localScale.x,
-                element.height * transform.localScale.y,
-                element.y * transform.localScale.z);
-            if (snappedPosition != transform.position)
-            {
-                Debug.LogWarning($"Map Element was snapped to map grid (from {transform.position} to {snappedPosition}).", gameObject);
-                transform.position = snappedPosition;
-            }
-            if (element.terrainType != currentTerrainType)
-            {
-                Debug.LogError($"Something went wrong, {nameof(element.terrainType)} is not equal to {nameof(currentTerrainType)}", gameObject);
-                element.terrainType = currentTerrainType;
-                LoadModel();
-            }
-            gameObject.name = $"({element.x},{element.y},{element.height}){element.elementType.ToString()}";
+            mapElementHandler.OnInitialized += Initialize;
+            mapElementHandler.OnElementUpdated += UpdateElement;
         }
 
-        private void LoadModel()
+        public void Initialize(MapElement element)
         {
-            if (model != null)
-                StartCoroutine(DeleteOldModel(model));
-            model = ModelController.Instance.LoadModel(element, transform);
+            this.terrainElement = (TerrainElement)element;
+            gameObject.name = $"({terrainElement.x},{terrainElement.y},{terrainElement.height}){terrainElement.terrainType.ToString()} Terrain";
+            isInitialized = true;
+            currentTerrainType = terrainElement.terrainType;
+        }
+
+        public void UpdateElement(MapElement element)
+        {
+            this.terrainElement = (TerrainElement)element;
+            gameObject.name = $"({terrainElement.x},{terrainElement.y},{terrainElement.height}){terrainElement.terrainType.ToString()} Terrain";
         }
 
         private void OnValidate()
         {
-            if (element != null && element.terrainType != currentTerrainType)
+            if (isInitialized == false)
+                return;
+            if (currentTerrainType != terrainElement.terrainType)
             {
-                element.terrainType = currentTerrainType;
-                LoadModel();
+                terrainElement.terrainType = currentTerrainType;
+                mapElementHandler.ElementChanged(terrainElement, true);
             }
-        }
-
-        private IEnumerator DeleteOldModel(GameObject oldModel)
-        {
-            yield return new WaitForEndOfFrame();
-            Debug.Log($"Destroying {oldModel.name}.");
-            DestroyImmediate(oldModel);
         }
     }
 }

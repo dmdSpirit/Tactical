@@ -19,7 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4336077406092972}
-  - component: {fileID: 114751487192446556}
+  - component: {fileID: 114012686475352914}
+  - component: {fileID: 114141873620677028}
   m_Layer: 0
   m_Name: TerrainElement
   m_TagString: Untagged
@@ -40,7 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114751487192446556
+--- !u!114 &114012686475352914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280783766756456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565e13cdcebed6d44a967d8c3a173259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114141873620677028
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,11 +63,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9eab37ef7b11244196eb03699f1b2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  element:
+  terrainElement:
     x: 0
     y: 0
     height: 0
-    elementType: 0
+    elementType: 1
     canStandOn: 0
     terrainType: 0
   currentTerrainType: 0

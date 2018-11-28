@@ -40,6 +40,14 @@ namespace dmdspirit.Tactical
             {
                 mapHanlder.ClearMap();
             }
+            if (GUILayout.Button("Generate Basic Terrain"))
+            {
+                mapHanlder.GenerateTerrainElement();
+            }
+            if (GUILayout.Button("Generate Basic Character"))
+            {
+                mapHanlder.GenerateCharacterElement();
+            }
         }
     }
 }

@@ -4,6 +4,6 @@ namespace dmdspirit.Tactical
 {
     public class ObjectElement : MonoBehaviour
     {
-        // TODO: (Stas) Implement objects (crates etc.).
+        // TODO: (dmdspirit) Implement objects (crates etc.).
     }
 }
