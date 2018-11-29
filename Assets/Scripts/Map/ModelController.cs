@@ -5,14 +5,6 @@ namespace dmdspirit.Tactical
 {
     // TODO: (dmdspirit) Write calculation of surfaces to have seamless textures like in Disgaea 5.
 
-    // Basically this enum contains terrain material names for easier inEditor map edditing.
-    public enum TerrainType
-    {
-        Empty,
-        Grass,
-        Rock
-    }
-
     [ExecuteInEditMode]
     public class ModelController : MonoSingleton<ModelController>
     {
@@ -43,6 +35,18 @@ namespace dmdspirit.Tactical
             terrainModel = Resources.Load<GameObject>("TerrainModel");
             if (terrainModel == null)
                 Debug.LogError("Could not load terrain model asset.", gameObject);
+        }
+
+        public GameObject LoadModel(CharacterElement characterElement)
+        {
+            // TODO: (dmdspirit) Implement loading character model.
+            return null;
+        }
+
+        public GameObject LoadModel(TerrainElement terrainElement)
+        {
+            // TODO: (dmdspirit) Implement loading terrain model.
+            return null;
         }
 
         public GameObject LoadModel(MapElement mapElement, Transform callerTransform)

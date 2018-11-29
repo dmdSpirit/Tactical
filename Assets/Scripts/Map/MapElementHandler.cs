@@ -5,25 +5,27 @@ using System;
 namespace dmdspirit.Tactical
 {
     [SelectionBase]
-    public class MapElementHandler : MonoBehaviour
+    public abstract class MapElementHandler : MonoBehaviour
     {
         public event Action<MapElement> OnInitialized;
         public event Action<MapElement> OnElementUpdated;
 
-        private MapElement element;
-        private GameObject model;
+        protected GameObject model;
+
+        protected void OnValidate()
+        {
+            // TODO: (dmdspirit) Write data validation.
+        }
 
         public void Initialize(MapElement element)
         {
-            this.element = element;
             transform.position = new Vector3(element.x * transform.localScale.x, element.height * transform.localScale.y, element.y * transform.localScale.z);
-            gameObject.name = $"({element.x},{element.y},{element.height}){element.elementType.ToString()}";
             LoadModel();
             if (OnInitialized != null)
                 OnInitialized(element);
         }
 
-        public void UpdateMapElement()
+        public void UpdateMapElement(ref MapElement element)
         {
             if (element == null)
             {
@@ -48,24 +50,8 @@ namespace dmdspirit.Tactical
                 OnElementUpdated(element);
         }
 
-        public void ElementChanged(MapElement element, bool reloadModel = false)
-        {
-            this.element = element;
-            if (reloadModel)
-                LoadModel();
-        }
+        public abstract void ElementChanged(MapElement element, bool reloadModel = false);
 
-        public void LoadModel()
-        {
-            if (model != null)
-                StartCoroutine(DeleteOldModel(model));
-            model = ModelController.Instance.LoadModel(element, transform);
-        }
-
-        private IEnumerator DeleteOldModel(GameObject oldModel)
-        {
-            yield return new WaitForEndOfFrame();
-            DestroyImmediate(oldModel);
-        }
+        public abstract void LoadModel();
     }
 }

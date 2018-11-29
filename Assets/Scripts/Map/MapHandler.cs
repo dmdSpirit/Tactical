@@ -18,9 +18,6 @@ namespace dmdspirit.Tactical
         private List<TerrainElementHandler> terrainList;
         private List<CharacterHandler> charactersList;
 
-        // TODO: (dmdspirit) Add character save/load.
-        // TODO: (dmdspirit) I think i should create base class 'MapElement' and generalize all this saving/loading.
-
         private void Start()
         {
             UpdateMap();
@@ -127,7 +124,7 @@ namespace dmdspirit.Tactical
             }
         }
 
-        // TODO: (dmdspirit) New Elements do not get loaded models.
+        // TODO: (dmdspirit) New Elements do not load models.
         public void GenerateTerrainElement()
         {
             TerrainElementHandler loadedElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);

@@ -1,14 +1,6 @@
 ﻿
 namespace dmdspirit.Tactical
 {
-    public enum DirectionEnum
-    {
-        North = 0,
-        East = 1,
-        South = 2,
-        West = 3
-    }
-
     public enum CharacterModelType
     {
         Warrior,
@@ -16,19 +8,27 @@ namespace dmdspirit.Tactical
     }
 
     [System.Serializable]
-    public class CharacterElement : MapElement
+    public class CharacterElement
     {
+        public MapElement mapElement;
         public string name;
         public int speed;
         public int jumpHeight;
         public CharacterModelType modelType;
-        public DirectionEnum facingDirection;
+        public FacingDirection facingDirection;
         public bool hasMoved;
         public bool hasActed;
 
+        public CharacterElement() : this(new MapElement(MapElementType.Character), "Character", 1, 1, CharacterModelType.Warrior) { }
+
         public CharacterElement(int x, int y, int height, string name, int speed, int jumpHeight,
-            CharacterModelType modelType, DirectionEnum facingDirection = DirectionEnum.North, bool hasMoved = false, bool hasActed = false) : base(x, y, height, MapElementType.Character)
+            CharacterModelType modelType, FacingDirection facingDirection = FacingDirection.North, bool hasMoved = false, bool hasActed = false)
+            : this(new MapElement(x, y, height, MapElementType.Character), name, speed, jumpHeight, modelType, facingDirection, hasMoved, hasActed) { }
+
+        public CharacterElement(MapElement mapElement, string name, int speed, int jumpHeight,
+            CharacterModelType modelType, FacingDirection facingDirection = FacingDirection.North, bool hasMoved = false, bool hasActed = false)
         {
+            this.mapElement = mapElement;
             this.name = name;
             this.speed = speed;
             this.jumpHeight = jumpHeight;
@@ -36,6 +36,11 @@ namespace dmdspirit.Tactical
             this.facingDirection = facingDirection;
             this.hasMoved = hasMoved;
             this.hasActed = hasActed;
+        }
+
+        public override string ToString()
+        {
+            return $"({mapElement.x},{mapElement.y},{mapElement.height}) {name} - {modelType.ToString()}";
         }
     }
 }

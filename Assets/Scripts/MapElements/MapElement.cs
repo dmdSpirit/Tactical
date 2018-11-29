@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace dmdspirit.Tactical
+﻿namespace dmdspirit.Tactical
 {
     public enum MapElementType
     {
@@ -9,7 +7,6 @@ namespace dmdspirit.Tactical
         Character
     }
 
-    // Base class for every element on map (character, terrain, object).
     [System.Serializable]
     public class MapElement
     {
@@ -18,12 +15,21 @@ namespace dmdspirit.Tactical
         public int height;
         public MapElementType elementType;
 
+        public MapElement() : this(0, 0, 0, MapElementType.UNDEFINED) { }
+
+        public MapElement(MapElementType mapElementType) : this(0, 0, 0, mapElementType) { }
+
         public MapElement(int x, int y, int height, MapElementType elementType)
         {
             this.x = x;
             this.y = y;
             this.height = height;
             this.elementType = elementType;
+        }
+
+        public override string ToString()
+        {
+            return $"({x},{y},{height}) {elementType.ToString()}";
         }
     }
 }
