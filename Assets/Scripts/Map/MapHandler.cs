@@ -131,7 +131,7 @@ namespace dmdspirit.Tactical
         public void GenerateTerrainElement()
         {
             TerrainElementHandler loadedElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);
-            loadedElement.Initialize(new TerrainElement(0,0,0,true, TerrainType.Rock));
+            loadedElement.GetComponent<MapElementHandler>().Initialize(new TerrainElement(0,0,0,true,TerrainType.Rock));
             if (terrainList == null)
                 terrainList = new List<TerrainElementHandler>();
             terrainList.Add(loadedElement);
@@ -140,7 +140,8 @@ namespace dmdspirit.Tactical
         public void GenerateCharacterElement()
         {
             CharacterHandler loadedElement = Instantiate<CharacterHandler>(characterPrefab, transform);
-            loadedElement.Initialize(new CharacterElement(0,0,0,"Character",1,1,CharacterModelType.Warrior));
+            loadedElement.GetComponent<MapElementHandler>().Initialize(new CharacterElement(0, 0, 0, "Character", 1, 1, CharacterModelType.Warrior));
+            //loadedElement.Initialize();
             if (charactersList == null)
                 charactersList = new List<CharacterHandler>();
             charactersList.Add(loadedElement);

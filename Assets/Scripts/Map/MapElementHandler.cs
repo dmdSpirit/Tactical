@@ -18,12 +18,18 @@ namespace dmdspirit.Tactical
             this.element = element;
             transform.position = new Vector3(element.x * transform.localScale.x, element.height * transform.localScale.y, element.y * transform.localScale.z);
             gameObject.name = $"({element.x},{element.y},{element.height}){element.elementType.ToString()}";
+            LoadModel();
             if (OnInitialized != null)
                 OnInitialized(element);
         }
 
         public void UpdateMapElement()
         {
+            if (element == null)
+            {
+                Debug.LogWarning($"Map element is not initialized.", gameObject);
+                return;
+            }
             element.x = (int)(transform.position.x / transform.localScale.x);
             element.y = (int)(transform.position.z / transform.localScale.z);
             element.height = (int)(transform.position.y / transform.localScale.y);
