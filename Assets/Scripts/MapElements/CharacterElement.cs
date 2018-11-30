@@ -1,5 +1,4 @@
-﻿
-namespace dmdspirit.Tactical
+﻿namespace dmdspirit.Tactical
 {
     public enum CharacterModelType
     {

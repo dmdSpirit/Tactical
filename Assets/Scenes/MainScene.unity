@@ -340,7 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapFileFolder: Maps
   mapName: TestMap
-  terrainElementPrefab: {fileID: 114141873620677028, guid: 6e9fd660b46373c4287b72da17ac52d4,
+  terrainElementPrefab: {fileID: 114719993900605836, guid: 87820d5e0a714f6498efb7377fb56632,
     type: 2}
   characterPrefab: {fileID: 114249776261198298, guid: fee0fa2b62294a04fb70e4d3d0432f43,
     type: 2}
@@ -355,3 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80441d0300f9a64ca19bfb0555c812f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrainModel: {fileID: 1043141354029958, guid: ad3107492e1152e4098f2b7b11cd009c,
+    type: 2}
+  characterModesFolder: Character Models
+  terrainMaterialsFolder: Terrain Materials

@@ -5,27 +5,23 @@ using System;
 namespace dmdspirit.Tactical
 {
     [SelectionBase]
+    [ExecuteInEditMode]
     public abstract class MapElementHandler : MonoBehaviour
     {
-        public event Action<MapElement> OnInitialized;
-        public event Action<MapElement> OnElementUpdated;
+        public event Action<MapElement> OnMapElementInitialized;
+        public event Action<MapElement> OnMapElementUpdated;
 
         protected GameObject model;
 
-        protected void OnValidate()
-        {
-            // TODO: (dmdspirit) Write data validation.
-        }
-
-        public void Initialize(MapElement element)
+        protected void InitializeMapElement(MapElement element)
         {
             transform.position = new Vector3(element.x * transform.localScale.x, element.height * transform.localScale.y, element.y * transform.localScale.z);
             LoadModel();
-            if (OnInitialized != null)
-                OnInitialized(element);
+            if (OnMapElementInitialized != null)
+                OnMapElementInitialized(element);
         }
 
-        public void UpdateMapElement(ref MapElement element)
+        protected void UpdateMapElement(ref MapElement element)
         {
             if (element == null)
             {
@@ -46,12 +42,14 @@ namespace dmdspirit.Tactical
                 Debug.LogWarning($"Map Element was snapped to map grid (from {transform.position} to {snappedPosition}).", gameObject);
                 transform.position = snappedPosition;
             }
-            if (OnElementUpdated != null)
-                OnElementUpdated(element);
+            if (OnMapElementUpdated != null)
+                OnMapElementUpdated(element);
         }
 
-        public abstract void ElementChanged(MapElement element, bool reloadModel = false);
-
-        public abstract void LoadModel();
+        protected virtual void LoadModel()
+        {
+            if (model != null)
+                DestroyImmediate(model);
+        }
     }
 }

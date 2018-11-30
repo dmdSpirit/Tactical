@@ -1,4 +1,6 @@
-﻿namespace dmdspirit.Tactical
+﻿using UnityEngine;
+
+namespace dmdspirit.Tactical
 {
     public enum MapElementType
     {
@@ -30,6 +32,11 @@
         public override string ToString()
         {
             return $"({x},{y},{height}) {elementType.ToString()}";
+        }
+
+        public Vector3 GetWorldPosition()
+        {
+            return new Vector3(x, height, y);
         }
     }
 }

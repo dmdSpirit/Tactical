@@ -29,5 +29,10 @@ namespace dmdspirit.Tactical
             this.canStandOn = canStandOn;
             this.terrainType = terrainType;
         }
+
+        public override string ToString()
+        {
+            return $"({mapElement.x},{mapElement.y},{mapElement.height}) {terrainType.ToString()} Terrain";
+        }
     }
 }

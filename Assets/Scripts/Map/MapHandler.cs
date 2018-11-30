@@ -5,6 +5,7 @@ using System;
 
 namespace dmdspirit.Tactical
 {
+    [ExecuteInEditMode]
     public class MapHandler : MonoSingleton<MapHandler>
     {
         public string mapFileFolder = "Maps";
@@ -17,11 +18,6 @@ namespace dmdspirit.Tactical
 
         private List<TerrainElementHandler> terrainList;
         private List<CharacterHandler> charactersList;
-
-        private void Start()
-        {
-            UpdateMap();
-        }
 
         public bool CheckIsEmpty()
         {
@@ -74,14 +70,14 @@ namespace dmdspirit.Tactical
         {
             terrainList = new List<TerrainElementHandler>();
             charactersList = new List<CharacterHandler>();
-            foreach(TerrainElementHandler mapElementHandler in FindObjectsOfType<TerrainElementHandler>())
+            foreach(TerrainElementHandler terrainElementHandler in FindObjectsOfType<TerrainElementHandler>())
             {
-                if (mapElementHandler.transform.parent != transform)
-                    Debug.LogError($"{nameof(TerrainElementHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", mapElementHandler.gameObject);
+                if (terrainElementHandler.transform.parent != transform)
+                    Debug.LogError($"{nameof(TerrainElementHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", terrainElementHandler.gameObject);
                 else
                 {
-                    mapElementHandler.GetComponent<MapElementHandler>().UpdateMapElement();
-                    terrainList.Add(mapElementHandler);
+                    terrainElementHandler.UpdateElement();
+                    terrainList.Add(terrainElementHandler);
                 }
             }
             foreach (CharacterHandler characterHandler in FindObjectsOfType<CharacterHandler>())
@@ -90,7 +86,7 @@ namespace dmdspirit.Tactical
                     Debug.LogError($"{nameof(CharacterHandler)} object is not child of {gameObject.name} and will not be saved with the rest map elements.", characterHandler.gameObject);
                 else
                 {
-                    characterHandler.GetComponent<MapElementHandler>().UpdateMapElement();
+                    characterHandler.UpdateElement();
                     charactersList.Add(characterHandler);
                 }
             }
@@ -109,17 +105,17 @@ namespace dmdspirit.Tactical
                 return;
             }
             terrainList = new List<TerrainElementHandler>();
-            foreach(var mapElement in loadedMap.terrainArray)
+            foreach(var terrainElement in loadedMap.terrainArray)
             {
                 TerrainElementHandler loadedElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);
-                loadedElement.Initialize(mapElement);
+                loadedElement.InitializeTerrain(terrainElement);
                 terrainList.Add(loadedElement);
             }
             charactersList = new List<CharacterHandler>();
-            foreach (var character in loadedMap.characterArray)
+            foreach (var characterElement in loadedMap.characterArray)
             {
                 CharacterHandler loadedElement = Instantiate<CharacterHandler>(characterPrefab, transform);
-                loadedElement.Initialize(character);
+                loadedElement.InitializeCharacter(characterElement);
                 charactersList.Add(loadedElement);
             }
         }
@@ -127,21 +123,20 @@ namespace dmdspirit.Tactical
         // TODO: (dmdspirit) New Elements do not load models.
         public void GenerateTerrainElement()
         {
-            TerrainElementHandler loadedElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);
-            loadedElement.GetComponent<MapElementHandler>().Initialize(new TerrainElement(0,0,0,true,TerrainType.Rock));
+            TerrainElementHandler newTerrainElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);
+            newTerrainElement.InitializeTerrain(new TerrainElement());
             if (terrainList == null)
                 terrainList = new List<TerrainElementHandler>();
-            terrainList.Add(loadedElement);
+            UpdateMap();
         }
 
         public void GenerateCharacterElement()
         {
-            CharacterHandler loadedElement = Instantiate<CharacterHandler>(characterPrefab, transform);
-            loadedElement.GetComponent<MapElementHandler>().Initialize(new CharacterElement(0, 0, 0, "Character", 1, 1, CharacterModelType.Warrior));
-            //loadedElement.Initialize();
+            CharacterHandler loadedCharacterElement = Instantiate<CharacterHandler>(characterPrefab, transform);
+            loadedCharacterElement.InitializeCharacter(new CharacterElement());
             if (charactersList == null)
                 charactersList = new List<CharacterHandler>();
-            charactersList.Add(loadedElement);
+            UpdateMap();
         }
     }
 }

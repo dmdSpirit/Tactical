@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4423012662820020}
-  - component: {fileID: 114608154683311574}
   - component: {fileID: 114249776261198298}
+  - component: {fileID: 135410557475882552}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -53,11 +53,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterElement:
-    x: 0
-    y: 0
-    height: 0
-    elementType: 2
-    name: 
+    mapElement:
+      x: 0
+      y: 0
+      height: 0
+      elementType: 2
+    name: Character
     speed: 0
     jumpHeight: 0
     modelType: 0
@@ -66,14 +67,17 @@ MonoBehaviour:
     hasActed: 0
   currentModelType: 0
   currentFacingDirection: 0
---- !u!114 &114608154683311574
-MonoBehaviour:
+  moveToVector: {x: 0, y: 0, z: 0}
+  speed: 1
+--- !u!135 &135410557475882552
+SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330015694987970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 565e13cdcebed6d44a967d8c3a173259, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}

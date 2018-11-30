@@ -1,52 +1,58 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace dmdspirit.Tactical
 {
-    [RequireComponent(typeof(MapElementHandler))]
-    public class TerrainElementHandler : MonoBehaviour
+    [SelectionBase]
+    [ExecuteInEditMode]
+    public class TerrainElementHandler : MapElementHandler
     {
         public TerrainElement terrainElement;
+
         [SerializeField]
         private TerrainType currentTerrainType;
 
-        private MapElementHandler mapElementHandler;
         private bool isInitialized = false;
 
         private void Awake()
         {
-            mapElementHandler = GetComponent<MapElementHandler>();
+            if (terrainElement != null)
+                InitializeTerrain(terrainElement);
         }
 
-        private void Start()
-        {
-            mapElementHandler.OnInitialized += Initialize;
-            mapElementHandler.OnElementUpdated += UpdateElement;
-        }
-
-        public void Initialize(MapElement element)
-        {
-            this.terrainElement = (TerrainElement)element;
-            gameObject.name = $"({terrainElement.x},{terrainElement.y},{terrainElement.height}){terrainElement.terrainType.ToString()} Terrain";
-            isInitialized = true;
-            currentTerrainType = terrainElement.terrainType;
-        }
-
-        public void UpdateElement(MapElement element)
-        {
-            this.terrainElement = (TerrainElement)element;
-            gameObject.name = $"({terrainElement.x},{terrainElement.y},{terrainElement.height}){terrainElement.terrainType.ToString()} Terrain";
-        }
-
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (isInitialized == false)
                 return;
+            if (transform.position != terrainElement.mapElement.GetWorldPosition())
+                UpdateMapElement(ref terrainElement.mapElement);
             if (currentTerrainType != terrainElement.terrainType)
             {
                 terrainElement.terrainType = currentTerrainType;
-                mapElementHandler.ElementChanged(terrainElement, true);
+                UnityEditor.EditorApplication.delayCall += () => LoadModel();
             }
+        }
+#endif
+
+        public void InitializeTerrain(TerrainElement terrainElement)
+        {
+            this.terrainElement = terrainElement;
+            currentTerrainType = terrainElement.terrainType;
+            InitializeMapElement(terrainElement.mapElement);
+            isInitialized = true;
+        }
+
+        public void UpdateElement()
+        {
+            UpdateMapElement(ref terrainElement.mapElement);
+            name = terrainElement.ToString();
+        }
+
+        protected override void LoadModel()
+        {
+            base.LoadModel();
+            model = ModelController.Instance.LoadTerrainModel(terrainElement, transform);
+            gameObject.name = terrainElement.ToString();
         }
     }
 }
