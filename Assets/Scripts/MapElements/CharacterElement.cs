@@ -3,7 +3,8 @@
     public enum CharacterModelType
     {
         Warrior,
-        Mage
+        Mage,
+        Archer
     }
 
     [System.Serializable]

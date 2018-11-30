@@ -120,7 +120,6 @@ namespace dmdspirit.Tactical
             }
         }
 
-        // TODO: (dmdspirit) New Elements do not load models.
         public void GenerateTerrainElement()
         {
             TerrainElementHandler newTerrainElement = Instantiate<TerrainElementHandler>(terrainElementPrefab, transform);

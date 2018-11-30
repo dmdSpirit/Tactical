@@ -11,6 +11,8 @@ namespace dmdspirit.Tactical
         public event Action<MapElement> OnMapElementInitialized;
         public event Action<MapElement> OnMapElementUpdated;
 
+        [SerializeField]
+        [HideInInspector]
         protected GameObject model;
 
         protected void InitializeMapElement(MapElement element)
@@ -21,6 +23,7 @@ namespace dmdspirit.Tactical
                 OnMapElementInitialized(element);
         }
 
+        // TODO: (dmdspirit) Fix positioning issues that occur on UpdateMapElement if element was rotated.
         protected void UpdateMapElement(ref MapElement element)
         {
             if (element == null)
